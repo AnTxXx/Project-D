@@ -9,30 +9,9 @@ Adafruit_NeoPixel areaEast   = Adafruit_NeoPixel(9, 12, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel areaSouth   = Adafruit_NeoPixel(9, 11, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel areaWest   = Adafruit_NeoPixel(9, 10, NEO_GRB + NEO_KHZ800);
 
-
-long previousMillis = 0;
-long onTime = 250;
-long offTime = 750;
-
 int nrOfSteps = 15; 
 int waitMilliSeconds = 10;
-
-//srand(time(NULL));
-
-int r0 = rand() % 255;
-int g0 = rand() % 255;
-int b0 = rand() % 255;
-int r1 = rand() % 255;
-int g1 = rand() % 255;
-int b1 = rand() % 255;
-int r2 = rand() % 255;
-int g2 = rand() % 255;
-int b2 = rand() % 255;
-int r3 = rand() % 255;
-int g3 = rand() % 255;
-int b3 = rand() % 255;
-
-
+int r0, g0, b0;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -46,19 +25,18 @@ void setup() {
   //  ; // wait for serial port to connect. Needed for native USB port only
   //}
   Serial.println("Discoobe is up and running");
-
-  //
 }
 
 // the loop function runs over and over again forever
 void loop() {
-
   Serial.println("blink on");
+  
   r0 = rand() % 255;
   g0 = rand() % 255;
   b0 = rand() % 255;
 
-  int r = rand() % 10;
+  int r = rand() % 12;
+  Serial.println(r);
   if (r < 5) {    
       int row = rand() % 3;
       paintRow (row, r0, g0, b0);
@@ -74,9 +52,11 @@ void loop() {
     paintFace ('W', r0, g0, b0);            
   if (r == 9)
     paintFace ('E', r0, g0, b0);                
-
   setCubeColors ();
-  
+
+  if (r == 10)
+    sequenceCarousel (166, r0, g0, b0);
+ 
   waitMilliSeconds = 450 + rand() % 455;  
   delay (waitMilliSeconds);
 }
@@ -125,6 +105,175 @@ void paintFace (char c, int r, int g, int b)
       areaWest.setPixelColor(i, r, g, b);                  
   }
 }
+
+
+void sequenceCarousel (int waitMs, int r0, int g0, int b0) {
+
+  paintCarousel ('A', r0,g0,b0);
+  setCubeColors ();
+  delay (waitMs);
+
+  paintCarousel ('A', 0,0,0);  
+  paintCarousel ('B', r0,g0,b0);
+  setCubeColors ();
+  delay (waitMs);
+  
+  paintCarousel ('B', 0,0,0);  
+  paintCarousel ('C', r0,g0,b0);
+  setCubeColors ();
+  delay (waitMs);
+
+  paintCarousel ('C', 0,0,0);  
+  paintCarousel ('D', r0,g0,b0);
+  setCubeColors ();
+  delay (waitMs);
+
+  for (int i=0; i<2; i++) {
+    paintCarousel ('D', 0,0,0);  
+    paintCarousel ('A', r0,g0,b0);
+    setCubeColors ();
+    delay (waitMs);
+  
+    paintCarousel ('A', 0,0,0);  
+    paintCarousel ('B', r0,g0,b0);
+    setCubeColors ();
+    delay (waitMs);
+  
+    paintCarousel ('B', 0,0,0);  
+    paintCarousel ('C', r0,g0,b0);
+    setCubeColors ();
+    delay (waitMs);
+  
+    paintCarousel ('C', 0,0,0);  
+    paintCarousel ('D', r0,g0,b0);
+    setCubeColors ();
+    delay (waitMs);
+  }
+
+  areaWest.setPixelColor(1, 0, 0, 0);
+  setCubeColors ();
+  delay (waitMs/7);
+  areaWest.setPixelColor(4,  0, 0, 0);
+  setCubeColors ();
+  delay (waitMs/7);
+  areaWest.setPixelColor(7,  0, 0, 0);     
+  setCubeColors ();
+  delay (waitMs/7);
+
+  areaEast.setPixelColor(1,  0, 0, 0);    
+  setCubeColors ();
+  delay (waitMs/7);
+  areaEast.setPixelColor(4,  0, 0, 0);    
+  setCubeColors ();
+  delay (waitMs/7);
+  areaEast.setPixelColor(7,  0, 0, 0);     
+  setCubeColors ();
+  delay (waitMs/7);
+
+  areaTop.setPixelColor(1,  0, 0, 0);
+  setCubeColors ();
+  delay (waitMs/7);
+  areaTop.setPixelColor(4,  0, 0, 0);
+  setCubeColors ();
+  delay (waitMs/7);
+  areaTop.setPixelColor(7, 0, 0, 0);
+  setCubeColors ();
+  delay (waitMs/7);
+  
+}
+//
+//
+//
+void paintCarousel (char c, int r, int g, int b)
+{
+    Serial.println("-paint");
+    Serial.println(r);
+    Serial.println(g);
+    Serial.println(b); 
+    if (c == 'A')
+    {
+      areaSouth.setPixelColor(0, r, g, b);
+      areaSouth.setPixelColor(5, r, g, b);
+      areaSouth.setPixelColor(6, r, g, b);      
+
+      areaNorth.setPixelColor(0, r, g, b);     
+      areaNorth.setPixelColor(5, r, g, b);     
+      areaNorth.setPixelColor(6, r, g, b);     
+
+      areaEast.setPixelColor(2, r, g, b);
+      areaEast.setPixelColor(3, r, g, b);
+      areaEast.setPixelColor(8, r, g, b);
+
+      areaWest.setPixelColor(2, r, g, b);     
+      areaWest.setPixelColor(3, r, g, b);     
+      areaWest.setPixelColor(8, r, g, b);     
+
+      areaTop.setPixelColor(2, r, g, b);
+      areaTop.setPixelColor(4, r, g, b);
+      areaTop.setPixelColor(6, r, g, b);
+    }
+    
+    if (c == 'C')
+    {
+      areaSouth.setPixelColor(2, r, g, b);
+      areaSouth.setPixelColor(3, r, g, b);
+      areaSouth.setPixelColor(8, r, g, b);      
+
+      areaNorth.setPixelColor(2, r, g, b);     
+      areaNorth.setPixelColor(3, r, g, b);     
+      areaNorth.setPixelColor(8, r, g, b);     
+
+      areaEast.setPixelColor(0, r, g, b);
+      areaEast.setPixelColor(5, r, g, b);
+      areaEast.setPixelColor(6, r, g, b);
+
+      areaWest.setPixelColor(0, r, g, b);     
+      areaWest.setPixelColor(5, r, g, b);     
+      areaWest.setPixelColor(6, r, g, b);     
+
+      areaTop.setPixelColor(0, r, g, b);
+      areaTop.setPixelColor(4, r, g, b);
+      areaTop.setPixelColor(8, r, g, b);
+    }
+
+    if (c == 'B')
+    {
+      areaSouth.setPixelColor(1, r, g, b);
+      areaSouth.setPixelColor(4, r, g, b);
+      areaSouth.setPixelColor(7, r, g, b);      
+
+      areaNorth.setPixelColor(1, r, g, b);     
+      areaNorth.setPixelColor(4, r, g, b);     
+      areaNorth.setPixelColor(7, r, g, b);     
+
+      areaTop.setPixelColor(5, r, g, b);
+      areaTop.setPixelColor(4, r, g, b);
+      areaTop.setPixelColor(3, r, g, b);
+    }
+
+    if (c == 'D')
+    {
+      areaWest.setPixelColor(1, r, g, b);
+      areaWest.setPixelColor(4, r, g, b);
+      areaWest.setPixelColor(7, r, g, b);      
+
+      areaEast.setPixelColor(1, r, g, b);     
+      areaEast.setPixelColor(4, r, g, b);     
+      areaEast.setPixelColor(7, r, g, b);     
+
+      areaTop.setPixelColor(1, r, g, b);
+      areaTop.setPixelColor(4, r, g, b);
+      areaTop.setPixelColor(7, r, g, b);
+    }
+
+}
+
+void paintArch (char c, int r, int g, int b)
+{
+    areaTop.setPixelColor(0, 0, 0, 0);
+    areaTop.show();
+}
+
 //
 //
 //
