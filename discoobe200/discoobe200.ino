@@ -110,7 +110,7 @@ void loop() {
       paintFace ('S', r0, g0, b0);
       paintFace ('W', r0, g0, b0);  
       paintFace ('E', r0, g0, b0);
-      setCubeColors();
+      //setCubeColors();
     }
 
     waitMilliSeconds = 200 + rand() % 380;
