@@ -10,39 +10,16 @@ Adafruit_NeoPixel areaEast   = Adafruit_NeoPixel(9, 12, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel areaSouth   = Adafruit_NeoPixel(9, 11, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel areaWest   = Adafruit_NeoPixel(9, 10, NEO_GRB + NEO_KHZ800);
 
-<<<<<<< HEAD
 RGBConverter colorConv;
 
 int r,g,b;
 double v = 0.0; //Helligkeit
 double vSteps = 0.05; //Helligskeitsschritte
 
-long previousMillis = 0;
-long onTime = 250;
-long offTime = 750;
-
 int nrOfSteps = 15; 
 int waitMilliSeconds = 10;
 
-//srand(time(NULL));
-
-int r0 = rand() % 255;
-int g0 = rand() % 255;
-int b0 = rand() % 255;
-int r1 = rand() % 255;
-int g1 = rand() % 255;
-int b1 = rand() % 255;
-int r2 = rand() % 255;
-int g2 = rand() % 255;
-int b2 = rand() % 255;
-int r3 = rand() % 255;
-int g3 = rand() % 255;
-int b3 = rand() % 255;
-=======
-int nrOfSteps = 15; 
-int waitMilliSeconds = 10;
 int r0, g0, b0;
->>>>>>> 090ff7718bc641242dab9ead3d884ebfaeeea3b9
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -60,23 +37,17 @@ void setup() {
   //  ; // wait for serial port to connect. Needed for native USB port only
   //}
   Serial.println("Discoobe is up and running");
-<<<<<<< HEAD
-  
-  //
-=======
->>>>>>> 090ff7718bc641242dab9ead3d884ebfaeeea3b9
 }
 
 unsigned long lastChange = 0.0;
 bool pulseOn = false;
 int pulseColorR = 0, pulseColorG = 0, pulseColorB = 0;
 // the loop function runs over and over again forever
-<<<<<<< HEAD
 
 void loop() {
-  int randi = rand() % 40;
+  int randi = rand() % 42;
   
-  if(randi >37 && !pulseOn){
+  if(randi >39 && !pulseOn){
     pulseOn = true;
     lastChange = millis();
     pulseColorR = rand() % 255;
@@ -85,7 +56,7 @@ void loop() {
   }
 
   // 12 Sekunden pulsieren
-  if(lastChange + 12000 < millis()){
+  if(lastChange + 10000 < millis()){
     pulseOn = false;
   }
 
@@ -129,47 +100,22 @@ void loop() {
     if (randi >29)
       paintFace ('W', r0, g0, b0); else   
     if (randi >32)
-      paintFace ('E', r0, g0, b0);           
-  
-    
+      paintFace ('E', r0, g0, b0); else
     setCubeColors ();
     
+    if (randi >35){
+      sequenceCarousel (166, r0, g0, b0);
+      paintFace ('T', r0, g0, b0);
+      paintFace ('N', r0, g0, b0);
+      paintFace ('S', r0, g0, b0);
+      paintFace ('W', r0, g0, b0);  
+      paintFace ('E', r0, g0, b0);
+      setCubeColors();
+    }
+
     waitMilliSeconds = 200 + rand() % 380;
     delay (waitMilliSeconds);
   }
-=======
-void loop() {
-  Serial.println("blink on");
-  
-  r0 = rand() % 255;
-  g0 = rand() % 255;
-  b0 = rand() % 255;
-
-  int r = rand() % 12;
-  Serial.println(r);
-  if (r < 5) {    
-      int row = rand() % 3;
-      paintRow (row, r0, g0, b0);
-  }
-
-  if (r == 5)
-    paintFace ('T', r0, g0, b0);
-  if (r == 6)
-    paintFace ('N', r0, g0, b0);
-  if (r == 7)
-    paintFace ('S', r0, g0, b0);
-  if (r == 8)
-    paintFace ('W', r0, g0, b0);            
-  if (r == 9)
-    paintFace ('E', r0, g0, b0);                
-  setCubeColors ();
-
-  if (r == 10)
-    sequenceCarousel (166, r0, g0, b0);
- 
-  waitMilliSeconds = 450 + rand() % 455;  
-  delay (waitMilliSeconds);
->>>>>>> 090ff7718bc641242dab9ead3d884ebfaeeea3b9
 }
 
 //
